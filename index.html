@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Contact V5</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.csss">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/main.css">	
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	
+<!--
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+-->
+
+</head>
+<body>
+
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Futuro Astral
+				</span>
+				      
+				<div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate="Por favor, insira o nome">
+					<span class="label-input100">Nome completo</span>
+					<input class="input100" id="nome_c" type="text" name="name" placeholder="Coloque seu nome">
+				</div>
+        
+				
+				<div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate="Por favor, insira o numero do telefone">
+					<span class="label-input100">Data de Nascimento</span>
+					<input class="input100" type="date" name="date" placeholder="Insira a data de nascimento">
+				</div>
+				
+    	  <div class="wrap-contact100-form-radio">
+				  <span class="label-input100">Sexo</span>
+				  <div class="contact100-form-radio m-t-15">
+					  <input class="input-radio100" id="radio1" type="radio" name="status" value="ativo" checked="checked">
+						  <label class="label-radio100" for="radio1">
+							  Masculino
+							</label>
+				  </div>
+				  <div class="contact100-form-radio">
+					  <input class="input-radio100" id="radio2" type="radio" name="status" value="inativo">
+						  <label class="label-radio100" for="radio2">
+								Feminino
+							</label>
+				  </div>		
+				</div>      
+
+				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					<span class="label-input100">Signo</span>
+					<div>
+						<select class="js-select2 uf" name="estado">
+								<option value="Áries">Áries</option>
+								<option value="Touro">Touro</option>
+								<option value="Gêmeos">Gêmeos</option>
+								<option value="Câncer">Câncer</option>
+								<option value="Leão">Leão</option>
+								<option value="Virgem">Virgem</option>
+								<option value="Libra">Libra</option>
+								<option value="Escorpião">Escorpião</option>
+								<option value="Sagitário">Sagitário</option>
+								<option value="Capricórnio">Capricórnio</option>
+								<option value="Aquário">Aquário</option>
+								<option value="Peixes">Peixes</option>
+						</select>						
+						<div class="dropDownSelect2"></div>
+					</div>
+				</div>
+    
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button type='button' class="contact100-form-btn">
+							<span>
+								Saber previsão
+							</span>
+						</button>
+					</div>
+				</div>
+			</form>
+			<div class="result">ffffffffffffffffffffffffffffffffff</div>
+		</div>
+	</div>
+
+
+    
+  
+  
+  
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+    $('.js-show-service').slideDown();
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+			$(".js-select2.cadastro").each(function(){
+				$(this).on('select2:close', function (e){
+					if($(this).val() == "Cliente") {
+            $('.cadfuncionario').slideUp();
+						$('.js-show-service').slideDown();
+					}
+					else {
+						$('.js-show-service').slideUp();
+            $('.cadfuncionario').slideDown();						
+					}
+				});
+			});
+		})
+	</script>
+	
+	<script>
+    var x = document.getElementById("result");
+    $('.container-contact100-form-btn').on('click', function(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        x.innerHTML = "Preciso da sua ajuda para calcular seu ascendente :)";
+      }
+    });     
+    function showPosition(position) {
+      var posicao = $('#nome_c').val() + "-->  lat: " + position.coords.latitude + " Long: " + position.coords.longitude;
+      $.post( "salvar.php", { texto: posicao} 
+    );
+  
+}
+  </script>  
+
+</body>
+</html>
